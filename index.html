@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Yapon Bog'i</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Orqa fon uchun Yapon bog'i rasmi */
+            background: url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Qorong'i filter, yozuv yaxshi ko'rinishi uchun */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Yozuv turadigan oyna (Glassmorphism effekti) */
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            margin: 20px;
+            z-index: 10;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .card h1 {
+            margin-top: 0;
+            font-size: 28px;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .card p {
+            font-size: 18px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* Sakura barglari animatsiyasi uchun CSS */
+        .petal {
+            position: absolute;
+            background-color: #ffb7c5;
+            border-radius: 15px 0 15px 0;
+            opacity: 0.8;
+            box-shadow: 0 0 10px rgba(255, 183, 197, 0.5);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay">
+        <div class="card">
+            <h1>Virtual Yapon Bog'iga Xush Kelibsiz! 🌸</h1>
+            <p>Haqiqiy Yapon bog'ida ko'rishishga vaqtimiz to'g'ri kelmagani uchun, sizga maxsus ushbu virtual Yapon bog'ini yaratishga qaror qildim.</p>
+            <p>Hozircha shu yerda sayr qilib, kitoblar haqida suhbatlashib turamiz. Buxoroda yaxshi dam oling, qarzimni albatta qaytaraman! 😉</p>
+        </div>
+    </div>
+
+    <!-- Sakura barglarini tushiruvchi JavaScript -->
+    <script>
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            // Barglarning tasodifiy o'lchami
+            const size = Math.random() * 10 + 10;
+            petal.style.width = `${size}px`;
+            petal.style.height = `${size}px`;
+            
+            // Boshlanish joyi (ekranning yuqori qismi)
+            petal.style.left = `${Math.random() * 100}vw`;
+            petal.style.top = `-20px`;
+            
+            // Tushish tezligi va aylanishi
+            const duration = Math.random() * 5 + 5; 
+            
+            document.body.appendChild(petal);
+
+            // Animatsiya qilish
+            const animate = petal.animate([
+                { transform: `translate3d(0, 0, 0) rotate(0deg)` },
+                { transform: `translate3d(${Math.random() * 200 - 100}px, 100vh, 0) rotate(${Math.random() * 360}deg)` }
+            ], {
+                duration: duration * 1000,
+                easing: 'linear',
+                iterations: 1
+            });
+
+            // Animatsiya tugagach bargni o'chirish (xotira to'lmasligi uchun)
+            animate.onfinish = () => petal.remove();
+        }
+
+        // Har 300 millisekundda yangi barg yaratish
+        setInterval(createPetal, 300);
+    </script>
+</body>
+</html>
