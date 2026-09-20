@@ -6,120 +6,147 @@
     <title>Virtual Yapon Bog'i</title>
     <style>
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Orqa fon uchun Yapon bog'i rasmi */
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
             background-size: cover;
+            display: flex; justify-content: center; align-items: center;
         }
 
-        /* Qorong'i filter, yozuv yaxshi ko'rinishi uchun */
         .overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5); z-index: 1;
         }
 
-        /* Yozuv turadigan oyna (Glassmorphism effekti) */
+        /* Asosiy oyna */
         .card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            text-align: center;
-            color: #fff;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            margin: 20px;
-            z-index: 10;
-            animation: fadeIn 2s ease-in-out;
+            background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px;
+            padding: 40px; width: 90%; max-width: 500px;
+            text-align: center; color: #fff; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            z-index: 10; transition: 0.5s; position: relative;
         }
 
-        .card h1 {
-            margin-top: 0;
-            font-size: 28px;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
+        h1 { margin-top: 0; font-size: 26px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+        p { font-size: 18px; line-height: 1.6; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); }
 
-        .card p {
-            font-size: 18px;
-            line-height: 1.6;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        /* Tugmalar */
+        .btn {
+            background: #ff758c; color: white; border: none;
+            padding: 12px 24px; border-radius: 30px; font-size: 18px;
+            cursor: pointer; margin: 10px; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);
+            transition: 0.3s;
         }
+        .btn:hover { background: #ff4766; transform: scale(1.05); }
 
-        /* Sakura barglari animatsiyasi uchun CSS */
+        /* Qochib ketadigan tugma */
+        #btnNo { position: relative; background: #6c757d; }
+
+        /* Sakura animatsiyasi */
         .petal {
-            position: absolute;
-            background-color: #ffb7c5;
-            border-radius: 15px 0 15px 0;
-            opacity: 0.8;
+            position: absolute; background-color: #ffb7c5;
+            border-radius: 15px 0 15px 0; opacity: 0.8;
             box-shadow: 0 0 10px rgba(255, 183, 197, 0.5);
-            pointer-events: none;
-            z-index: 1;
+            pointer-events: none; z-index: 5;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Vaucher ko'rinishi */
+        .voucher {
+            display: none;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            color: #333; padding: 20px; border-radius: 15px;
+            border: 2px dashed #ff758c; margin-top: 20px;
         }
+        .voucher h2 { color: #ff4766; margin: 5px 0; }
+        
+        /* Boshlang'ich ekran */
+        #mainContent { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="overlay">
-        <div class="card">
-            <h1>Virtual Yapon Bog'iga Xush Kelibsiz! 🌸</h1>
-            <p>Haqiqiy Yapon bog'ida ko'rishishga vaqtimiz to'g'ri kelmagani uchun, sizga maxsus ushbu virtual Yapon bog'ini yaratishga qaror qildim.</p>
-            <p>Hozircha shu yerda sayr qilib, kitoblar haqida suhbatlashib turamiz. Buxoroda yaxshi dam oling, qarzimni albatta qaytaraman! 😉</p>
+    <!-- Musiqa fayli -->
+    <audio id="bgMusic" loop>
+        <!-- Siz yuklagan musiqa shu yerda ishlaydi -->
+        <source src="musiqa.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="overlay"></div>
+
+    <!-- 1-Ekran: Darvoza -->
+    <div class="card" id="startScreen">
+        <h1>Virtual Yapon Bog'iga kiring 🌸</h1>
+        <p>Ovozni yoqing va tugmani bosing...</p>
+        <button class="btn" onclick="enterGarden()">Bog'ga kirish</button>
+    </div>
+
+    <!-- 2-Ekran: Asosiy matn va o'yin -->
+    <div class="card" id="mainContent">
+        <h1>Virtual Yapon Bog'iga Xush Kelibsiz! 🎌</h1>
+        <p>Haqiqiy Yapon bog'ida ko'rishishga vaqtimiz to'g'ri kelmagani uchun, sizga ushbu maxsus virtual Yapon bog'ini yaratishga qaror qildim.</p>
+        <p>Hozircha shu yerda kitoblar haqida suhbatlashib turamiz. Buxoroda yaxshi dam oling! 😊</p>
+        
+        <div id="questionBox">
+            <h3 style="margin-top: 30px;">Kechirim qabul qilindimi?</h3>
+            <button class="btn" onclick="acceptApology()">Ha, albatta 💖</button>
+            <button class="btn" id="btnNo" onmouseover="moveNoButton()" onclick="moveNoButton()">Yo'q 😤</button>
+        </div>
+
+        <!-- 3-Ekran: Vaucher -->
+        <div class="voucher" id="voucherBox">
+            <h2>🎟 MAXSUS VAUCHER 🎟</h2>
+            <p><b>Yutuq:</b> Haqiqiy Yapon bog'ida sayr va cheksiz kitob suhbatlari.</p>
+            <p><b>Muddati:</b> Ikkalamiz ham bo'sh bo'lgan ilk kunda!</p>
+            <p><i>Ushbu ekranni "skrinshot" qilib menga yuboring! 😉</i></p>
         </div>
     </div>
 
-    <!-- Sakura barglarini tushiruvchi JavaScript -->
     <script>
+        // Bog'ga kirish va musiqani yoqish
+        function enterGarden() {
+            document.getElementById('bgMusic').play();
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            setInterval(createPetal, 300); // Sakura to'kilishi boshlanadi
+        }
+
+        // Qochib ketadigan tugma mantig'i
+        function moveNoButton() {
+            const btn = document.getElementById('btnNo');
+            const x = Math.random() * 200 - 100; // X o'qi bo'yicha qochish
+            const y = Math.random() * 200 - 100; // Y o'qi bo'yicha qochish
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        // Ha tugmasi bosilganda vaucher chiqishi
+        function acceptApology() {
+            document.getElementById('questionBox').style.display = 'none';
+            document.getElementById('voucherBox').style.display = 'block';
+            
+            // Xursandchilik effektlari (ko'proq sakura to'kiladi)
+            for(let i=0; i<30; i++) {
+                setTimeout(createPetal, i * 100);
+            }
+        }
+
+        // Sakura yaratish funksiyasi
         function createPetal() {
             const petal = document.createElement('div');
             petal.classList.add('petal');
-            
-            // Barglarning tasodifiy o'lchami
             const size = Math.random() * 10 + 10;
-            petal.style.width = `${size}px`;
-            petal.style.height = `${size}px`;
-            
-            // Boshlanish joyi (ekranning yuqori qismi)
-            petal.style.left = `${Math.random() * 100}vw`;
-            petal.style.top = `-20px`;
-            
-            // Tushish tezligi va aylanishi
-            const duration = Math.random() * 5 + 5; 
-            
+            petal.style.width = `${size}px`; petal.style.height = `${size}px`;
+            petal.style.left = `${Math.random() * 100}vw`; petal.style.top = `-20px`;
             document.body.appendChild(petal);
-
-            // Animatsiya qilish
+            
             const animate = petal.animate([
                 { transform: `translate3d(0, 0, 0) rotate(0deg)` },
                 { transform: `translate3d(${Math.random() * 200 - 100}px, 100vh, 0) rotate(${Math.random() * 360}deg)` }
-            ], {
-                duration: duration * 1000,
-                easing: 'linear',
-                iterations: 1
-            });
-
-            // Animatsiya tugagach bargni o'chirish (xotira to'lmasligi uchun)
+            ], { duration: (Math.random() * 5 + 5) * 1000, easing: 'linear' });
+            
             animate.onfinish = () => petal.remove();
         }
-
-        // Har 300 millisekundda yangi barg yaratish
-        setInterval(createPetal, 300);
     </script>
 </body>
 </html>
